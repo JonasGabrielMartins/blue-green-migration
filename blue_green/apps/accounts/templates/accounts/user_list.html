@@ -1,0 +1,50 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Usuários</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Lista de Usuários</h1>
+        <table class="user-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Email</th>
+                    <th>Data de Nascimento</th>
+                    <th>Imagem</th>
+                    <th>Status de Admin</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.get_full_name }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.birthdate }}</td>
+                        <td>
+                            {% if user.picture %}
+                                <img src="{{ user.picture.url }}" alt="Foto de {{ user.get_full_name }}" class="user-picture">
+                            {% else %}
+                                <span>Nenhuma imagem</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ user.is_staff|yesno:"Sim,Não" }}</td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="6">Nenhum usuário encontrado.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
